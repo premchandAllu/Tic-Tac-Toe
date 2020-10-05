@@ -1,4 +1,5 @@
 package com.capgemini.TicTacToe;
+
 import java.util.*;
 
 public class TicTacToe {
@@ -25,8 +26,21 @@ public class TicTacToe {
 		return userChoice;
 	}
 
+	// Display the Board
+	private static void showBoard(char[] board) {
+		int k = 1;
+		for (int i = 0; i <= 2; i++) {
+			System.out.println("\n_______\n");
+			System.out.print("|");
+			for (int j = 0; j <= 2; j++) {
+				System.out.print(board[k] + "|");
+				k++;
+			}
+		}
+		System.out.println("\n_______");
+	}
+
 	public static void main(String[] args) {
-	
 		board = createBoard();
 		userChoice = chooseUserLetter();
 
@@ -35,6 +49,6 @@ public class TicTacToe {
 			computer = 'O';
 		else
 			computer = 'X';
-		System.out.println("Computer letter is " + computer);
+		showBoard(board);
 	}
 }
