@@ -67,18 +67,13 @@ public class TicTacToe {
 	}
 
 	// Make Move on Board
-	private static void makeMove(char[] board, char Choice) {
-		boolean empty = false;
-		if (Choice == userChoice) {
+	private static void makeMove(char[] board, char choice) {
+		if (choice == userChoice) {
 			int position = selectLocation(board);
-			board[position] = Choice;
+			board[position] = choice;
 		} else {
-			do {
-				int position = (int) (Math.floor((Math.random() * 10) % 9) + 1);
-				empty = isSpaceFree(board, position);
-				if (empty)
-					board[position] = Choice;
-			} while (empty == false);
+			int position = computerPlaysWithBrain(board, choice);
+			board[position] = choice;
 		}
 		showBoard(board);
 	}
@@ -90,15 +85,96 @@ public class TicTacToe {
 	}
 
 	// Choose The First Player
-	private static void chooseFirstPlayer(int gameToss,char[] board,char userChoice,char computer) {
+	private static void chooseFirstPlayer(int gameToss) {
 		if (gameToss == HEAD) {
 			System.out.println("User Plays First");
-			makeMove(board, userChoice);
+			checkWinner(gameToss);
 		}
 		if (gameToss == TAIL) {
 			System.out.println("Computer Plays First");
+			checkWinner(gameToss);
+		}
+	}
+
+	// Check who is Winner or game is Tie
+	private static void checkWinner(int gameToss) {
+
+		if (gameToss == HEAD) {
+			makeMove(board, userChoice);
+		} else if (gameToss == TAIL) {
 			makeMove(board, computer);
 		}
+
+		if ((board[1] == board[2] && board[2] == board[3] && board[1] != ' ')
+				|| (board[4] == board[5] && board[5] == board[6] && board[6] != ' ')
+				|| (board[7] == board[8] && board[8] == board[9] && board[9] != ' ')
+				|| (board[1] == board[4] && board[4] == board[7] && board[7] != ' ')
+				|| (board[2] == board[5] && board[5] == board[8] && board[8] != ' ')
+				|| (board[3] == board[6] && board[6] == board[9] && board[9] != ' ')
+				|| (board[1] == board[5] && board[5] == board[9] && board[9] != ' ')
+				|| (board[3] == board[5] && board[5] == board[7] && board[7] != ' ')) {
+			if (gameToss == HEAD)
+				System.out.println("Winner is User");
+			if (gameToss == TAIL)
+				System.out.println("Winner is Computer");
+			System.exit(0);
+		} else {
+			if (board[1] != ' ' && board[2] != ' ' && board[3] != ' ' && board[4] != ' ' && board[5] != ' '
+					&& board[6] != ' ' && board[7] != ' ' && board[8] != ' ' && board[9] != ' ') {
+				System.out.println("Game is Tie");
+				System.exit(0);
+			} else {
+				if (gameToss == HEAD) {
+					gameToss--;
+					checkWinner(gameToss);
+				} else if (gameToss == TAIL) {
+					gameToss++;
+					checkWinner(gameToss);
+				}
+			}
+		}
+		showBoard(board);
+	}
+
+	// Computer plays like me to win
+	public static int computerPlaysWithBrain(char[] board, char choice) {
+		int position = 0;
+		while (position == 0) {
+			int i = (int) (Math.floor((Math.random() * 10) % 9) + 1);
+			if (isSpaceFree(board, i))
+				position = i;
+		}
+		if (choice == computer) {
+			if (((board[1] == board[2] && board[1] == computer) || (board[5] == board[7] && board[5] == computer)
+					|| (board[6] == board[9] && board[6] == computer)) && board[3] == ' ') {
+				position = 3;
+			} else if (((board[4] == board[5] && board[4] == computer)
+					|| (board[3] == board[9] && board[3] == computer)) && board[6] == ' ') {
+				position = 6;
+			} else if (((board[5] == board[1] && board[1] == computer) || (board[8] == board[7] && board[7] == computer)
+					|| (board[6] == board[3] && board[6] == computer)) && board[9] == ' ') {
+				position = 9;
+			} else if (((board[3] == board[2] && board[3] == computer) || (board[4] == board[7] && board[4] == computer)
+					|| (board[5] == board[9] && board[5] == computer)) && board[1] == ' ') {
+				position = 1;
+			} else if (((board[1] == board[7] && board[1] == computer)
+					|| (board[5] == board[6] && board[5] == computer)) && board[4] == ' ') {
+				position = 4;
+			} else if (((board[1] == board[4] && board[1] == computer) || (board[5] == board[3] && board[5] == computer)
+					|| (board[8] == board[9] && board[8] == computer)) && board[7] == ' ') {
+				position = 7;
+			} else if (((board[1] == board[3] && board[1] == computer)
+					|| (board[5] == board[8] && board[5] == computer)) && board[2] == ' ') {
+				position = 2;
+			} else if (((board[5] == board[2] && board[5] == computer)
+					|| (board[7] == board[9] && board[7] == computer)) && board[8] == ' ') {
+				position = 8;
+			} else if (((board[1] == board[9] && board[1] == computer) || (board[3] == board[7] && board[3] == computer)
+					|| (board[6] == board[4] && board[6] == computer)) && board[5] == ' ') {
+				position = 5;
+			}
+		}
+		return position;
 	}
 
 	public static void main(String[] args) {
@@ -111,7 +187,7 @@ public class TicTacToe {
 			computer = 'O';
 		else
 			computer = 'X';
-		int toss=tossToWhoPlayFirst();
-		chooseFirstPlayer(toss,board,userChoice,computer);
+		int toss = tossToWhoPlayFirst();
+		chooseFirstPlayer(toss);
 	}
 }
