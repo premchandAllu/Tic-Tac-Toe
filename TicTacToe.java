@@ -172,6 +172,38 @@ public class TicTacToe {
 			} else if (((board[1] == board[9] && board[1] == computer) || (board[3] == board[7] && board[3] == computer)
 					|| (board[6] == board[4] && board[6] == computer)) && board[5] == ' ') {
 				position = 5;
+			} else if (((board[1] == board[2] && board[1] == userChoice)
+					|| (board[5] == board[7] && board[5] == userChoice)
+					|| (board[6] == board[9] && board[6] == userChoice)) && board[3] == ' ') {
+				position = 3;
+			} else if (((board[4] == board[5] && board[4] == userChoice)
+					|| (board[3] == board[9] && board[3] == userChoice)) && board[6] == ' ') {
+				position = 6;
+			} else if (((board[5] == board[1] && board[1] == userChoice)
+					|| (board[8] == board[7] && board[7] == userChoice)
+					|| (board[6] == board[3] && board[6] == userChoice)) && board[9] == ' ') {
+				position = 9;
+			} else if (((board[3] == board[2] && board[3] == userChoice)
+					|| (board[4] == board[7] && board[4] == userChoice)
+					|| (board[5] == board[9] && board[5] == userChoice)) && board[1] == ' ') {
+				position = 1;
+			} else if (((board[1] == board[7] && board[1] == userChoice)
+					|| (board[5] == board[6] && board[5] == userChoice)) && board[4] == ' ') {
+				position = 4;
+			} else if (((board[1] == board[4] && board[1] == userChoice)
+					|| (board[5] == board[3] && board[5] == userChoice)
+					|| (board[8] == board[9] && board[8] == userChoice)) && board[7] == ' ') {
+				position = 7;
+			} else if (((board[1] == board[3] && board[1] == userChoice)
+					|| (board[5] == board[8] && board[5] == userChoice)) && board[2] == ' ') {
+				position = 2;
+			} else if (((board[5] == board[2] && board[5] == userChoice)
+					|| (board[7] == board[9] && board[7] == userChoice)) && board[8] == ' ') {
+				position = 8;
+			} else if (((board[1] == board[9] && board[1] == userChoice)
+					|| (board[3] == board[7] && board[3] == userChoice)
+					|| (board[6] == board[4] && board[6] == userChoice)) && board[5] == ' ') {
+				position = 5;
 			}
 		}
 		return position;
