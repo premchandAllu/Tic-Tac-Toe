@@ -22,7 +22,6 @@ public class TicTacToe {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Choose Your User Letter X or O");
 		char userChoice = sc.next().charAt(0);
-		sc.close();
 		return userChoice;
 	}
 
@@ -40,7 +39,47 @@ public class TicTacToe {
 		System.out.println("\n_______");
 	}
 
+	// Selection of location by Player
+	private static int selectLocation(char[] board) {
+		Scanner sc = new Scanner(System.in);
+		boolean available = false;
+		int position = 0;
+		Integer[] validCells = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+		do {
+			System.out.println("Choose a Desired Location on Board from 1 to 9 :");
+			position = sc.nextInt();
+			if (isSpaceFree(board, position) && Arrays.asList(validCells).contains(position))
+				available = true;
+			else
+				System.out.println("Invalid Location. Choose from 1 to 9");
+		} while (available == false);
+		return position;
+
+	}
+
+	public static boolean isSpaceFree(char[] board, int position) {
+		return board[position] == ' ';
+	}
+
+	// Make Move on Board
+	private static void makeMove(char[] board, char Choice) {
+		boolean empty = false;
+		if (Choice == userChoice) {
+			int position = selectLocation(board);
+			board[position] = Choice;
+		} else {
+			do {
+				int position = (int) (Math.floor((Math.random() * 10) % 9) + 1);
+				empty = isSpaceFree(board, position);
+				if (empty)
+					board[position] = Choice;
+			} while (empty == false);
+		}
+		showBoard(board);
+	}
+
 	public static void main(String[] args) {
+		System.out.println("Welcome to Tic-Tac-Toe Game");
 		board = createBoard();
 		userChoice = chooseUserLetter();
 
@@ -50,5 +89,6 @@ public class TicTacToe {
 		else
 			computer = 'X';
 		showBoard(board);
+		makeMove(board, userChoice);
 	}
 }
